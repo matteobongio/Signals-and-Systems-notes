@@ -32,6 +32,9 @@
   generalbox(fuchsia, title, text, ..opts)
 }
 
+#let yellowbox(title, text, ..opts) = {
+  generalbox(yellow, title, text, ..opts)
+}
 
 #let purplebox(title, text, ..opts) = {
   generalbox(purple, title, text, ..opts)
