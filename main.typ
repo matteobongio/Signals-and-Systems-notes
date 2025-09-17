@@ -228,3 +228,42 @@ $
 #Definitionbox("Gibbs' Phenomenon", [
   At Discontinuities, there is always an overshoot in the fourier analysis
 ])
+
+= Lecture 3
+
+#Definitionbox("Beat Notes/Amplitude Modulation", [
+  Amplitude changes over time
+
+  $ c(t) = v(t) cos(2 pi f_c t) $
+
+  *Beat Notes*: product of 2 sinusoids
+  $
+    x(t) = cos(2 pi f_1 t) + cos(2 pi f_2 t) = 2 cos(2 pi f_c t) cos(2 pi f_Delta t)
+  $
+  - $f_c$: $frac(f_1 + f_2, 2)$
+  - $f_Delta$: $frac(f_1 - f_2, 2)$
+])
+
+#Definitionbox("Chirps/Frequency Modulation", [
+  Frequency changes over time
+
+  $ x(t) = cos(2 pi f_0 t + v(t) + phi) $
+
+  *Chirps*: Quadratic angle function, linear instantaneous frequency
+  $ c(t) = A cos(alpha t^2 + 2 pi f_0 t + phi) $
+  - Frequency changes linearly over time
+  - _instantaneous frequency_: derivative
+    $ x (t) + A cos(Psi(t)) => omega_i(t) = d/(d t) Psi(t) $
+])
+
+#Definitionbox("Sampling", [
+  - aliasing
+    - folding
+  - spectrum for digitial signals
+])
+
+#TheoremBox("Sampling Theorem", [
+  $ "Sampling Rate" > 2 ("Highest Frequency Component") $
+])
+
+
