@@ -260,10 +260,72 @@ $
   - aliasing
     - folding
   - spectrum for digitial signals
+
+  *Uniform Sampling*:
+    - Sampling Time Interval $T_s$: time between two samples
+    - Samplig Rate $f_s = 1/T_s$
+    
+  Uniform Sampling at $t = n dot T_s = n/f_s$
+
+  $x[n] = x(n dot T_s) = x(n / f_s)$
 ])
 
-#TheoremBox("Sampling Theorem", [
+#Examplebox([
+  *Audio CD*:
+
+  CD rate is 44 100 samples per secound, 16-bit samples, 2 channels (stereo)
+  $ 2 times (16/8) times 60 times 44100 = 10.584 "MB per minute" $
+])
+
+== Discrete-Time Sinusoid
+- A-D conversion:
+  $ 
+  x[n] = A cos(hat(omega) n + phi) \
+  hat(omega) = omega T_s = omega/f_s = (2 pi f)/f_s
+  $
+  - $hat(omega)$ varies from $0$ to $2 pi$, as $f$ varies from $0$ to the sampling frequency
+  - Units: radians
+
+#Definitionbox("Aliasing", [
+  - Different Frequencies may yield the same $hat(omega)$
+  $
+    x(t) = A cos(2 pi (f + ell f_s) t + phi)\
+    hat(omega) = omega T_s + (2 pi f)/f_s plus.minus 2 pi ell
+  $
+  *principal alias*: $ell = 0$
+
+  - Adding or Subtracting integer multiples of $f_s$ to the frequency yields that same $x[n]$
+
+  - negative frequencies are also affected, but their phase becomes negative:
+  $
+    x(t) &= A cos(2 pi (-f + ell f_s) t + phi) \
+    => x[n] &= A(hat(omega) n - phi)
+  $
+
+  - *Folding*: a type of aliasing
+  $
+    f_s = 1000 \
+    cos(2 pi (100) t) &-> cos[2 pi (0.1) n]\
+    cos(2 pi (1100) t) &-> cos[2 pi (0.1) n]\
+    cos(2 pi (900) t) &-> cos[2 pi (0.1) n]
+  $
+    - folding frequency = $1/2 f_s$
+])
+
+- D-A reconstruction:
+  $y[n] -> y(t)$: replace $n$ with $f_s t$
+
+  ambiguous due to aliasing, we choose the signal with the lowest frequency
+  
+  - Stair-step approximation: for every sample, make a constant function, with the sample time in the middle
+  - Interpolation: for every sample draw a line until the next sample
+  - Sinc: optimal pulse: $p(t) = frac(sin (pi t)/T_s, (pi t)/T_s), p(0)=1$
+
+
+#TheoremBox("Shannon Sampling Theorem", [
   $ "Sampling Rate" > 2 ("Highest Frequency Component") $
+
+  also called _Nyquist Rate_
+
+  This only works for bandlimited signals, so not the square wave, as it is an infinite sum
 ])
-
-
