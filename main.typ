@@ -329,3 +329,110 @@ $
 
   This only works for bandlimited signals, so not the square wave, as it is an infinite sum
 ])
+
+= Lecture 4
+
+#Definitionbox("Fir Filters", [
+  - linearity
+  - time-invatiance
+])
+
+#pinkbox("Pointwise operators", [
+  - Inverting $255 - x[n]$
+  - Squaring $(x[n])^2$
+  - Scaling $a times x[n]$
+  - Thresholding $(x[n] < T ? 0 : 1)$
+])
+
+#yellowbox("Causality", [
+  - The cause does not precede the correspoinding effect
+  - no output prior to input
+])
+
+#purplebox("3-pt average system", [
+  $ y[n] = 1/3 (x[n] + x[n+1] + x[n + 2]) $
+
+  *Causal 3-pt averager*
+  $ y[n] = 1/3 (x[n] + x[n - 1] + x[n - 2]) $
+])
+
+#Definitionbox("General Fir Filters", [
+  $ y[n] = sum_(k = 0)^M b_k dot x[n - k] $
+
+  - Filter _order_ is $M$
+  - Filter _Length_ is $L = M + 1$
+
+  #Examplebox([
+    $
+    b = {3, -1, 2, 1} \
+    => 3x[n] - x[n - 1] + 2x[n - 2] + x[n - 3]
+    $
+  ])
+
+  - Slide a window across $x[n]$
+])
+
+#Definitionbox([Unit Impulse Signal $delta[n]$], [
+  $
+    delta[n] = cases(1 quad &n=0, 0 &n != 0)
+  $
+
+  - $x[n]$ can be written as a sum of shifted impulses
+  - you can use the impulse signal to deduce filter coefficients
+])
+
+#Definitionbox("Convolution", [
+  $ y[n] = sum_(k = 0)^M h[k] x[n - k] $
+  #Notationbox([
+    $ y[n] = h[n] * x[n] $
+  ])
+])
+
+#purplebox("First Difference", [
+  $ y[n] = x[n] - x[n - 1] $
+
+  basically differentiation
+])
+
+#Definitionbox("Time-Invariant System", [
+  time shifting the input will case the same time-shift in the output.
+
+  time origin is picked arbitrarily
+])
+
+#Definitionbox("Linear System", [
+  - Scaling:
+    scaling the input will scale the output by the same factor
+  - Superposition:
+    adding two inputs gives an output that is the sum of the individual outputs
+])
+
+#Definitionbox("LTI: Linear and Time-Invariant", [
+  Completely Characterized by:
+  - Inpuse response
+  - Convolution
+  
+  *Cascade Systems*:
+  can be rearranged
+])
+
+#redbox("Properties of Convolution", [
+  $ (f * g)[d] = sum_(n = - infinity)^infinity f[n] g[d - n] $
+  - Commutativity: $f * g = g * f$
+  - Associativity: $(f * g) * h = f * (g * h)$
+  - Assoc. scalar mul: $a(f * g) (a f) * g = f * (a g)$
+  - Distributivity:
+  - Identity element: $f * delta = delta * f = f$
+])
+
+#Definitionbox("Correlation", [
+  convolution where the filter is flipped before being applied
+
+  #Notationbox([
+    $ G = H times.circle F $
+  ])
+
+  when the filter is symmetric, correlation = convolution
+])
+
+
