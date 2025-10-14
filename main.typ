@@ -426,7 +426,7 @@ $
 ])
 
 #Definitionbox("Correlation", [
-  convolution where the filter is flipped before being applied
+  convolution where the filter is flipped (H and V) before being applied
 
   #Notationbox([
     $ G = H times.circle F $
@@ -435,4 +435,103 @@ $
   when the filter is symmetric, correlation = convolution
 ])
 
+= Lecture 5: Discrete Fourier Transform
 
+== Polynomial Multiplication
+- Coefficient representation: multiplication $O(n^2)$
+- Point-value representation: multiplication $O(n)$
+
+== Evaluation/Interpolation
+
+#Definitionbox("VanderMonde Matrix", [
+  $
+    V(x_0, ..., x_(n - 1)) = mat(
+      1, x_0, x_0^2, ..., x_0^(n-1);
+      1, x_1, x_1^2, ..., x_1^(n-1);
+      1, x_2, x_2^2, ..., x_2^(n-1);
+      dots.v, dots.v, dots.v, dots.down,  dots.v;
+      1, x_(n - 1), x_(n - 1)^2, ..., x_(n - 1)^(n-1);
+    )
+  $
+  always invertable since $x_i != x_j, forall i, j$
+])
+
+$
+  V(x_0, ..., x_(n - 1)) vec(a_0, dots.v, a_(n-1)) = vec(y_0, dots.v, y_(n - 1)) \
+  vec(a_0, dots.v, a_(n - 1)) = V^(-1) (x_0, ..., x_(n - 1)) vec(y_0, dots.v, y_(n - 1))
+$
+
+=== Evaluation (even n)
+$
+  A(x) &= sum_(n = 0)^(n - 1) a_n x_n 
+       = sum_(n = 0)^(n/2 -1) (a_(2 n) x^(2 n) + a_(2 n + 1) x^(2 n + 1)) \
+       &= sum_(n = 0)^(n/2 -1) a_(2 n) (x^2)^n + x sum_(n = 0)^(n/2 -1) a_(2 n + 1) (x^2)^n \
+       &= A_0 (x^2) + x A_1(x^2)
+$
+Where
+$
+  A_0(x) &= sum_(n = 0)^(n/2 -1) a_(2 n) x^n\
+  A_1(x) &= sum_(n = 0)^(n/2 -1) a_(2 n + 1) x^n
+$
+
+So evaluating $A(x)$ at $x_0, x_1, ..., x_(n - 1)$ reduces to evaluating the degree bound 
+$n/2$ polynomials $A_0(x)$ and $A_1(x)$ at $x_0^2, x_1^2, ..., x_(n - 1)^2$ then combining the 
+results
+
+*Choose smart points for point-value representation*:
+if $x_i^2 = x_j^2$ then we can evaluate at fewer positions
+
+
+#Definitionbox("Primitive Roots of Unity", [
+  $omega$ is a _Primitive Root of Unity_ if $omega^N = 1, N>1 and omega^0 = 1$
+  and $omega^1, ..., omega^(n - 1)$ are all distinct
+  - Real: -1
+  - Complex: $e^(i 2 pi / N)$
+  - multiplicative groups modulo $N + 1$
+
+  #set list(marker: ">")
+  - *inverse property*: $omega^(-1) = omega^(N - 1)$
+  - *reduction property*: $omega^(2 N) = 1 => (omega^2)^n = 1$
+
+    $1, omega^1, ..., omega^(n - 1)$ are all distinct, so are
+    $1, (omega^2)^1, ..., (omega^2)^(n - 1)$
+  - *cancellation property*: for non-zero $k: -N < k < N, sum_(j = 0)^(N - 1) omega^(k j) = 0$
+  - *reflective property*: if $N$ is even, then $omega^(N/2) = -1$
+
+      $omega^(k + N/2) = (omega^k)^2$
+])
+
+
+$
+  x_0^2 &= (omega_N^(N/2-1))^2 = omega_(N/2)^(N/2-1)\
+  x_(N/2)^2 &= x_(N/2-1)
+$
+
+== Discrete Fourier Transform
+
+to evaluate A at the values $1, omega, omega^2, ..., omega^(N - 1)$
+
+produces $(y_0, y_1, ..., y_(N-1))$ where $y_k = A(omega^k)$
+
+$ y_k = sum_(n = 0)^(N - 1) a_n omega_N^(n k) = sum_(n = 0)^(N - 1) a_n e^(i 2 pi n k / N)  $
+
+Matrix Form $y = F a$ where $F[i,j] = omega^(i j)$
+
+== Inverse Fourier Transform
+
+$ a_k = 1/N sum_(n = 0)^(N - 1) y_n omega_N^(- n k) = 1/N sum_(n = 0)^(N - 1) y_n e^(-i 2 pi n k/N) $
+
+
+#bluebox("", [
+  For any two vectors $a, b$ of length $N = 2^k$ their convolution is given by
+  $ a * b = "DFT"_(2 N)^(- 1) ("DFT"_(2 N) (a') "DFT"_(2 N)(b')) $
+  where $a'$ and $b'$ are zero-padded versions of length $2 N$
+])
+
+#TheoremBox("Convolution Theorem", [
+  For any two vectors $a, b$ of length $N=2^k$
+  the DFT of their convolution is given by the pairwise
+  multiplication of their DFTs
+  $ "DFT"(a * b) = "DFT"_(2 N)("DFT"_(2 N) (a') "DFT"_(2 N)(b')) $
+  where $a'$ and $b'$ are zero-padded versions of length $2 N$
+])
