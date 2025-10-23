@@ -535,3 +535,55 @@ $ a_k = 1/N sum_(n = 0)^(N - 1) y_n omega_N^(- n k) = 1/N sum_(n = 0)^(N - 1) y_
   $ "DFT"(a * b) = "DFT"_(2 N)("DFT"_(2 N) (a') "DFT"_(2 N)(b')) $
   where $a'$ and $b'$ are zero-padded versions of length $2 N$
 ])
+
+= Lecture 6: Frequency Response of FIR Filters
+
+Fir filters change the amplitude and phase, but they keep the same frequencies
+
+The amplitude and phase change is call the _frequency response_
+
+
+For each frequency:
+$
+  H(e^(i hat(omega))) = sum_(k = 0)^M b_k e^(-i hat(omega) k)
+$
+
+We assume $x[n]$ has an infinite domain:
+$
+  y[n] = H(e^(i hat(omega))) X e^(i hat(omega) n)\
+  x[n] = X e^(i hat(omega) n) u[n] = cases(
+    X e^(i hat(omega) n) thick &0 <= n,
+    0 &n <0
+  )\
+$
+where $X = A e^(i phi)$
+$
+  y[n] = sum_(k = 0)^M b_k  X e^(i hat(omega)(n - k)) u[n-k]
+$
+
+for steady state: $y[n] = H(e^(i hat(omega))) x[n]$
+
+frequency response is complex-valued
+
+polar form:
+
+$
+  H(e^(i hat(omega))) = |H(e^(i hat(omega)))| e^(i angle H(e^(i hat(omega)))) \
+  y[n] = |H(e^(i hat(omega)))| A e^(i ( angle H(e^(i hat(omega))) + phi)) e^(i hat(omega) n) \
+$
+
+Gain: $|H(e^(i hat(omega)))|$
+
+
+#Examplebox([
+  $
+    {b_k} &= {1,2,1} \
+    H(e^(i hat(omega))) &= sum_(k = 0)^M b_k e^(- i hat(omega) k) \
+    H(e^(i hat(omega))) &= 1 + 2 e^(- i hat(omega)) + e^(- i 2 hat(omega)) \
+    &= e^(- i hat(omega)) (2 + 2 cos hat(omega))
+  $
+  since $(2 + 2 cos hat(omega)) >= 0$, the gain is $(2 + 2 cos hat(omega))$, the phase change is
+  $-hat(omega)$
+])
+
+*Cascade*: $H(e^(i hat(omega))) = H_1(e^(i hat(omega))) H_2(e^(i hat(omega)))$
