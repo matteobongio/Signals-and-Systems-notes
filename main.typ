@@ -587,3 +587,38 @@ Gain: $|H(e^(i hat(omega)))|$
 ])
 
 *Cascade*: $H(e^(i hat(omega))) = H_1(e^(i hat(omega))) H_2(e^(i hat(omega)))$
+
+#purplebox("Sinusoid through FIR", [
+  - Multiply the amplitude with the magnitude of the frequency response
+  - add the angle of the frequency response to the phase
+  $
+    x[n] &= A cos(hat(omega)_1 n + phi) \
+    => y[n] &= A |H(e^(i hat(omega)_1))| cos(hat(omega)_1 n + phi + angle H(e^(i hat(omega)_1)))
+  $
+])
+
+#yellowbox("Superposition", [
+  $
+    x[n] &= X_0 + sum_(k = 1)^N |X_k| cos(hat(omega)_k n + angle X_k) \
+    &= X_0 + sum_(k = 1)^N (
+      H(e^(i hat(omega)_k)) X_k/2 e^(i hat(omega)_k) + H(e^(-i hat(omega)_k)) X^*_k/2 e^(-i hat(omega)_k)
+    )
+  $
+])
+
+LTI systems are completely characterized by impulse response or frequency response
+
+#Examplebox([
+  *unit delay* 
+  $
+    y[n] = x[n-1] \ 
+    b_k = {0, 1} \
+    H(e^(i hat(omega))) = sum_(k = 0)^M b_k e^(-i hat(omega) k) = e^(-i hat(omega))
+  $
+
+  *First difference*
+  $
+    b_k = {1, -1} \
+    H(e^(i hat(omega))) = sum_(k = 0)^M b_k e^(-i hat(omega) k) = 1 - e^(-i hat(omega))
+  $
+])
